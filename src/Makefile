@@ -6,7 +6,7 @@ OBJ_DIR			:= $(BUILD_DIR)/obj
 TARGET_DIR		:= $(BUILD_DIR)/bin
 SRC_DIR			:= .
 ASSETS_DIR		:= assets
-GIT_VERSION		= \"$(shell git rev-parse HEAD)\"
+GIT_VERSION		= $(shell git rev-parse HEAD)
 
 SRCS			:= $(shell find $(SRC_DIR) -maxdepth 1 -name '*.cpp')
 OBJS			:= $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
@@ -38,13 +38,15 @@ clean:
 
 rebuild: clean all
 
-test_client: $(CLIENT_TARGET)
-	$^ $(TEST_SOCKET) VERSION
-	$^ $(TEST_SOCKET) TEST
+test: $(SERVER_TARGET) $(CLIENT_TARGET)
+	$(SERVER_TARGET) $(TEST_SOCKET) &
+	# Not necessary per say, but the socket may not
+	# be ready by the time the client comes online
+	while [ ! -S $(TEST_SOCKET) ]; do sleep 0.1; done
+	$(CLIENT_TARGET) $(TEST_SOCKET) VERSION
+	$(CLIENT_TARGET) $(TEST_SOCKET) TEST
+	$(CLIENT_TARGET) $(TEST_SOCKET) QUIT
 
-test_server: $(SERVER_TARGET)
-	$^ $(TEST_SOCKET)
-
-.PHONY: all clean test_client test_server rebuild
+.PHONY: all clean test_client test_server rebuild test
 
 -include: $(DEPS)
