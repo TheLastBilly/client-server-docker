@@ -2,12 +2,8 @@
 #include <stdlib.h>
 #include <errno.h>
 
-#include "utils.h"
-
-#define BUFFER_LEN          128
-
-static int fd = 0;
-static char buffer[BUFFER_LEN] = {0};
+#include "utils.hpp"
+#include "socket.hpp"
 
 extern int errno;
 
@@ -30,9 +26,7 @@ main( int argc, char * argv[] )
 {
     int ret = 0;
     std::string buffer = "";
-    Client client();
-
-    atexit(clean);
+    Socket::Client client;
 
     if(argc != 3)
     {
@@ -40,15 +34,11 @@ main( int argc, char * argv[] )
         return EINVAL;
     }
 
-    path = argv[1];
-    command = argv[2];
-
-    ret = client.connect(path);
+    ret = client.connect(argv[1]);
     if(ret != 0)
         FAIL(ret, "failed to connect to socket");
 
-    buffer = command;
-    ret = client.write(buffer);
+    ret = client.write(std::string(argv[2]));
     if(ret != 0)
         FAIL(ret, "failed to send command");
 

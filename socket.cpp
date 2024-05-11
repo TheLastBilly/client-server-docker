@@ -24,7 +24,7 @@ static int
 read_fd( int fd, std::string &data )
 {
     ssize_t len = 0;
-    char buffer[READ_BUFFER] = {0};
+    char buffer[READ_BUFFER_LEN] = {0};
 
     data = "";
     while((len = read(fd, buffer, sizeof(buffer))) > 0)
@@ -41,7 +41,7 @@ read_fd( int fd, std::string &data )
 static int
 write_fd( int fd, const std::string &data )
 {
-    if(write(fd, data.c_str(), data.length()) < 0)
+    if(write(fd, data.c_str(), data.length()+1) < 0)
         return errno;
 
     return 0;
@@ -75,10 +75,16 @@ Server::Server()
 Server::~Server()
 {
     stop();
+
+    if(connection != nullptr)
+    {
+        delete connection;
+        connection = nullptr;
+    }
 }
 
 int
-Server::listen( void )
+Server::listen( const std::string &path )
 {
     int ret = 0;
     struct sockaddr_un s_addr = {0};
@@ -99,7 +105,7 @@ Server::listen( void )
     if(ret < 0)
         return errno;
 
-    if(listen(fd, 1) < 0)
+    if(::listen(fd, 1) < 0)
         return errno;
 
     return 0;
@@ -110,14 +116,21 @@ Server::accept( void )
 {
     int fd = 0;
 
-    if((fd = accept(this->fd, NULL, NULL)) < 0)
+    if(connection != nullptr)
+    {
+        delete connection;
+        connection = nullptr;
+    }
+
+    if((fd = ::accept(this->fd, NULL, NULL)) < 0)
         return NULL;
 
-    return new Connection(fd);
+    connection = new Connection(fd);
+    return connection;
 }
 
 void
-Connection::stop( void )
+Server::stop( void )
 {
     if(fd <= 0)
         return;
@@ -136,6 +149,7 @@ Client::~Client()
 int
 Client::connect( const std::string &path )
 {
+    int ret = 0;
     struct sockaddr_un s_addr = {0};
 
     // Create unix socket
@@ -148,9 +162,21 @@ Client::connect( const std::string &path )
     strncpy(s_addr.sun_path, path.c_str(), ARRLEN(s_addr.sun_path));
 
     // Try to connect to socket
-    ret = connect(fd, (const struct sockaddr *) &s_addr, sizeof(s_addr));
+    ret = ::connect(fd, (const struct sockaddr *) &s_addr, sizeof(s_addr));
     if(ret < 0)
         return errno;
+
+    return 0;
+}
+
+void
+Client::disconnect( void )
+{
+    if(fd <= 0)
+        return;
+
+    close(fd);
+    fd = 0;
 }
 
 int

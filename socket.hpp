@@ -15,19 +15,20 @@ namespace Socket
 
         int read( std::string &data );
         int write( const std::string &data );
+        int disconnect( void );
     };
 
     class Server
     {
     private:
-        std::string path;
         int fd = 0;
+        Connection * connection = nullptr;
 
     public:
         Server( void );
         ~Server( void );
 
-        int listen( void );
+        int listen( const std::string &path );
         void stop( void );
 
         Connection* accept( void );
@@ -43,7 +44,7 @@ namespace Socket
         ~Client();
 
         int connect( const std::string &path );
-        int disconnect( void );
+        void disconnect( void );
 
         int read( std::string &data );
         int write( const std::string &path );
