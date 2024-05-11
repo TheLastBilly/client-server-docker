@@ -1,7 +1,12 @@
-#!/bin/bash
+#!/bin/sh
 
-useradd -u $(UID) -g $(GID) builder
+UID=${UID:-1000}
+GID=${GID:-1000}
+GIT_VERSION=${GIT_VERSION:-"NOT DEFINED"}
 
-cd $(BUILD_PATH)
-su - builder
-make CXX=$(AARCG64_TOOLCHAIN_PATH)/bin/aarch64-linux-g++
+groupadd --gid ${GID} builder
+useradd --uid ${UID} --gid ${GID} builder
+
+su -c \
+'make CXX=${AARCH64_TOOLCHAIN_PATH}/bin/aarch64-linux-g++ GIT_VERSION=\""${GIT_VERSION}"\" BUILD_DIR=build/aarch64 rebuild && \
+make BUILD_DIR=build/x86 GIT_VERSION=\""${GIT_VERSION}"\" rebuild' builder
