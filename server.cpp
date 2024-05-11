@@ -14,7 +14,7 @@
 #endif
 
 std::map<std::string, std::function<void(Socket::Connection *)>> commands = {
-    {"VERSION", [](Socket::Connection *c){ c->write(std::string(GIT_VERSION));}},
+    {"VERSION", [](Socket::Connection *c){ c->write(GIT_VERSION);}},
 };
 
 static void
@@ -79,7 +79,7 @@ main( int argc, char * argv[] )
         if(commands.find(buffer) != commands.end())
             commands[buffer](connection);
         else
-            connection->write(std::string("REJECTED"));
+            connection->write("REJECTED");
 
     } while(ret == 0);
 

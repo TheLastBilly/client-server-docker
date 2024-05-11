@@ -13,3 +13,4 @@
 #define FAIL_(m, ...)       {fprintf(stderr, __FILE__ ":" XSTR(__LINE__) ": " m ": %s (%d)\n",  __VA_ARGS__);}
 #define FAIL(r, ...)        {FAIL_(__VA_ARGS__, strerror(r), r); return r < 0 ? -r : r;}
 #define WRITES(fd,s)        write(fd, s, sizeof(s))
+

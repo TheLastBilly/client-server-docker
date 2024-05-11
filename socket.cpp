@@ -14,7 +14,7 @@
 
 #include "utils.hpp"
 
-#define READ_BUFFER_LEN     10
+#define READ_BUFFER_LEN     64
 
 using namespace Socket;
 
@@ -26,10 +26,9 @@ read_fd( int fd, std::string &data )
     ssize_t len = 0;
     char buffer[READ_BUFFER_LEN] = {0};
 
-    data = "";
-    while((len = read(fd, buffer, sizeof(buffer))) > 0)
-        data += std::string(buffer, len);
-    if(len < 0)
+    if((len = read(fd, buffer, sizeof(buffer))) > 0)
+        data = std::string(buffer, len);
+    else
     {
         data = "";
         return errno;
@@ -41,7 +40,7 @@ read_fd( int fd, std::string &data )
 static int
 write_fd( int fd, const std::string &data )
 {
-    if(write(fd, data.c_str(), data.length()+1) < 0)
+    if(write(fd, data.c_str(), data.length()) < 0)
         return errno;
 
     return 0;
