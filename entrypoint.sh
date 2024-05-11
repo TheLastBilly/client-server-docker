@@ -8,5 +8,5 @@ groupadd --gid ${GID} builder
 useradd --uid ${UID} --gid ${GID} builder
 
 su -c \
-'make CXX=${AARCH64_TOOLCHAIN_PATH}/bin/aarch64-linux-g++ GIT_VERSION=\""${GIT_VERSION}"\" BUILD_DIR=build/aarch64 rebuild && \
-make BUILD_DIR=build/x86 GIT_VERSION=\""${GIT_VERSION}"\" rebuild' builder
+'make CXX=${AARCH64_TOOLCHAIN_PATH}/bin/aarch64-linux-g++ GIT_VERSION=\""${GIT_VERSION}"\" BUILD_DIR=build/aarch64 && \
+make BUILD_DIR=build/x86 GIT_VERSION=\""${GIT_VERSION}"\"' builder

@@ -12,7 +12,6 @@ SRCS			:= $(shell find $(SRC_DIR) -maxdepth 1 -name '*.cpp')
 OBJS			:= $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 CFLAGS			+= -MMD -MP
 DEPS			:= $(OBJS:%.o=%.d)
-DEPS			+= $(TEST_OBJS:%.o=%.d)
 
 CFLAGS			+= -DGIT_VERSION=\"$(GIT_VERSION)\"
 
