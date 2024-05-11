@@ -6,6 +6,9 @@ OBJ_DIR			:= $(BUILD_DIR)/obj
 TARGET_DIR		:= $(BUILD_DIR)/bin
 SRC_DIR			:= .
 ASSETS_DIR		:= assets
+
+# I'm using git rev-parse instead to increase compatibility with older
+# versions of git.
 GIT_VERSION		= $(shell git rev-parse HEAD)
 
 SRCS			:= $(shell find $(SRC_DIR) -maxdepth 1 -name '*.cpp')
@@ -40,9 +43,11 @@ rebuild: clean all
 
 test: $(SERVER_TARGET) $(CLIENT_TARGET)
 	$(SERVER_TARGET) $(TEST_SOCKET) &
-	# Not necessary per say, but the socket may not
-	# be ready by the time the client comes online
-	while [ ! -S $(TEST_SOCKET) ]; do sleep 0.1; done
+
+	@# Not necessary per say, but the socket may not
+	@# be ready by the time the client comes online
+	@while [ ! -S $(TEST_SOCKET) ]; do sleep 0.1; done
+
 	$(CLIENT_TARGET) $(TEST_SOCKET) VERSION
 	$(CLIENT_TARGET) $(TEST_SOCKET) TEST
 	$(CLIENT_TARGET) $(TEST_SOCKET) QUIT

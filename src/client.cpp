@@ -12,12 +12,8 @@ help()
 {
     printf(
         "Usage: client PATH COMMAND \n"
-        "Connects to the UNIX socket on PATH and sends COMMAND.\n"
-        "The reply will be printed on stdout.\n"
-        "\n"
-        "This tool can accept the following commands:\n"
-        "   VERSION            \tsends tool's git HEAD hash to client\n"
-        "\n"
+        "Connects to the UNIX socket on PATH and sends COMMAND. It will wait for a reply "
+        "and print it over stdout.\n"
     );
 }
 

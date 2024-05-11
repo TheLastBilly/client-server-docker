@@ -71,9 +71,6 @@ You might have also noticed the following output in your terminal after running 
 ```bash
 # ...
 build/x86/bin/server build/x86/bin/test.sock &
-# Not necessary per say, but the socket may not
-# be ready by the time the client comes online
-while [ ! -S build/x86/bin/test.sock ]; do sleep 0.1; done
 build/x86/bin/client build/x86/bin/test.sock VERSION
 5b7b8dcc946580fb8321fceaa23bce2f58386931
 build/x86/bin/client build/x86/bin/test.sock TEST
@@ -106,9 +103,6 @@ This should run the `test` target defined on [src/Makefile](src/Makefile) (line 
 # ...
 make: Entering directory '/home/drevil/Documents/client-server-docker/src'
 build/bin/server build/bin/test.sock &
-# Not necessary per say, but the socket may not
-# be ready by the time the client comes online
-while [ ! -S build/bin/test.sock ]; do sleep 0.1; done
 build/bin/client build/bin/test.sock VERSION
 5b7b8dcc946580fb8321fceaa23bce2f58386931
 build/bin/client build/bin/test.sock TEST

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
-#include <getopt.h>
 
 #include <map>
 #include <functional>
@@ -26,47 +25,32 @@ static void
 help()
 {
     printf(
-        "Usage: server [-h] PATH \n"
-        "Creates an UNIX socket on PATH and waits for"
-        "incomming requests.\n"
-        "\n"
-        "None of the options below are mandatory\n"
-        "   -h                 \tprints this message\n\n"
+        "Usage: server PATH \n"
+        "Creates an UNIX socket on PATH and waits for incomming requests.\n"
         "\n"
         "This tool can accept the following commands:\n"
         "   VERSION            \tsends tool's git HEAD hash to client\n"
-        "\n"
+#ifndef DISABLE_QUIT_COMAND
+        "   QUIT               \tsends \"OK\" to client and stops the server\n"
+#endif
     );
 }
 
 int
 main( int argc, char * argv[] )
 {
-    int ret = 0, i = 0;
+    int ret = 0;
     std::string buffer = "";
     Socket::Server server;
     Socket::Connection * connection = NULL;
 
-    while((i = getopt(argc, (char * const*)argv, "h")) != -1)
-    {
-        switch(i)
-        {
-            case 'h':
-                help();
-                return 0;
-            default:
-                help();
-                return EINVAL;
-        }
-    }
-
-    if(optind >= argc)
+    if(argc != 2)
     {
         help();
         return EINVAL;
     }
 
-    ret = server.listen(std::string(argv[optind]));
+    ret = server.listen(std::string(argv[1]));
     if(ret != 0)
         FAIL(ret, "cannot create server socket");
 
