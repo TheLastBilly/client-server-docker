@@ -17,19 +17,31 @@ This system is made up of two applications [server](src/server.cpp) and [client]
 - [src/server.cpp](src/server.cpp): `server` application code.
 - [src/client.cpp](src/client.cpp): `client` application code.
 
+## Disclaimer
+This guide (and code) was written and tested on Debian 12 (Bookworm), so it is recommended that you use the same or a similar system to follow this guide. However, it should be reproducible on other GNU/Linux distributions.
+
 ## Prerequisites
 - `gcc`
 - `git`
 - `make`
+- `bash`
 - `docker` (optional)
 
 ### Getting Prerequisites on Debian
-You can install `gcc`, `git` and `make` on a Debian based system with the following command on your terminal.
+You can install `gcc`, `git`, `make` and `bash` on a Debian based system with the following command on your terminal.
 ```bash
-sudo apt install build-essential git make
+sudo apt install build-essential git make bash
 ```
 
-As of the writing of this document, it is not recommended that you install Docker from the default PPAs provided by Debian. In order to install Docker, please follow the instructions listed on the [official website](https://docs.docker.com/desktop/install/debian/).
+As of the writing of this document, it is not recommended that you install Docker from the default PPAs provided by Debian. In order to install Docker, please follow the instructions listed on the [official website](https://docs.docker.com/engine/install/debian/#install-using-the-repository). After installing Docker you might still not be able to run the `docker` command. This is usually because your current user does not belong to the `docker` group. This can be easily fixed by running the following command and logging out of your session and logging back in (or just restarting your computer).
+
+```bash
+sudo usermod -aG docker $(whoami)
+
+# THIS WILL RESTART YOUR SYSTEM RIGHT AWAY!
+# Be sure you saved all your progress beforehand
+sudo reboot
+```
 
 ## Cloning
 Before running the code on this repository, you'll have to clone it into your system. You can do so by running the following command on your terminal.
