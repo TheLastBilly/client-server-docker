@@ -65,6 +65,8 @@ chmod +x ./build.sh
 
 The script will create a Docker image on your system called `client-server-docker`, and will mount the [src/](src/) directory from your copy of this repository into a newly created, temporary container. It will also grab the UID and GID of your user so that you can access the files modified by the container. Lastly, it will use the [src/Makefile](src/Makefile) script to build `server` and `client` executables, both for x86 and aarch64.
 
+**Note: `client-server-docker` is based on the name of the directory your clone of this repo is in. Meaning that if you change the name of this directory, Docker (or more specifically [build.sh](./build.sh)) will rename the image accordingly.**
+
 The following files and directories will be created on your system:
 
 #### For x86
