@@ -17,6 +17,9 @@ This system is made up of two applications [server](src/server.cpp) and [client]
 - [src/server.cpp](src/server.cpp): `server` application code.
 - [src/client.cpp](src/client.cpp): `client` application code.
 
+## Disclaimer
+This guide (and code) was written and tested on Debian 12 (Bookworm), so it is recommended that you use the same or a similar system to follow this guide. However, it should be reproducible on other GNU/Linux distributions.
+
 ## Prerequisites
 - `gcc`
 - `git`
