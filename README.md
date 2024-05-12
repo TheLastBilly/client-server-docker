@@ -32,13 +32,12 @@ sudo apt install build-essential git make
 As of the writing of this document, it is not recommended that you install Docker from the default PPAs provided by Debian. In order to install Docker, please follow the instructions listed on the [official website](https://docs.docker.com/engine/install/debian/#install-using-the-repository). After installing Docker you might still not be able to run the `docker` command. This is usually because your current user does not belong to the `docker` group. This can be easily fixed by running the following command and logging out of your session and logging back in (or just restarting your computer).
 
 ```bash
-sudo usermod -aG docker <YOUR USERNAME>
+sudo usermod -aG docker $(whoami)
 
 # THIS WILL RESTART YOUR SYSTEM RIGHT AWAY!
 # Be sure you saved all your progress beforehand
 sudo reboot
 ```
-**Note: Remeber to replace `<YOUR USERNAME>` with the name of your user account.**
 
 ## Cloning
 Before running the code on this repository, you'll have to clone it into your system. You can do so by running the following command on your terminal.
