@@ -30,7 +30,8 @@ This guide (and code) was written and tested on Debian 12 (Bookworm), so it is r
 ### Getting Prerequisites on Debian
 You can install `gcc`, `git`, `make` and `bash` on a Debian based system with the following command on your terminal.
 ```bash
-sudo apt install build-essential git make bash
+sudo apt update
+sudo apt install -y build-essential git make bash
 ```
 
 As of the writing of this document, it is not recommended that you install Docker from the default PPAs provided by Debian. In order to install Docker, please follow the instructions listed on the [official website](https://docs.docker.com/engine/install/debian/#install-using-the-repository). After installing Docker you might still not be able to run the `docker` command. This is usually because your current user does not belong to the `docker` group. This can be easily fixed by running the following command and logging out of your session and logging back in (or just restarting your computer).
