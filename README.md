@@ -112,7 +112,7 @@ You can run the files created by `make` by running the following command:
 make -C src/ test
 ```
 
-This should run the `test` target defined on [src/Makefile](src/Makefile) (line 41) and generate the following output on your terminal:
+This should run the `test` target defined on [src/Makefile](src/Makefile) (line 44) and generate the following output on your terminal:
 ```bash
 # ...
 make: Entering directory '/home/drevil/Documents/client-server-docker/src'
